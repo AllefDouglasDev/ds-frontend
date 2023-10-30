@@ -64,31 +64,33 @@ export function Navbar({ type }) {
   }
 
   return (
-    <div className="w-full h-16 flex items-center justify-between p-4 border-b border-gray-400">
-      <h1 className="text-sm font-bold">Digital Schedule</h1>
-      <div className="flex gap-6">
-        <Link
-          href={`/${type}/atividades`}
-          className={pathname.includes("atividades") ? "text-sky-700" : ""}
-        >
-          Atividades
-        </Link>
-        {type === "estudante" && (
+    <div className="w-full border-b border-gray-400">
+      <div className="w-full max-w-7xl mx-auto h-16 flex items-center justify-between p-4">
+        <h1 className="font-bold">Digital Schedule</h1>
+        <div className="flex gap-6">
           <Link
-            href={`/${type}/horarios`}
-            className={pathname.includes("horarios") ? "text-sky-700" : ""}
+            href={`/${type}/atividades`}
+            className={pathname.includes("atividades") ? "text-sky-700" : ""}
           >
-            Horários
+            Atividades
           </Link>
-        )}
-        <Link
-          href={`/${type}/eventos`}
-          className={pathname.includes("eventos") ? "text-sky-700" : ""}
-        >
-          Eventos
-        </Link>
+          {type === "estudante" && (
+            <Link
+              href={`/${type}/horarios`}
+              className={pathname.includes("horarios") ? "text-sky-700" : ""}
+            >
+              Horários
+            </Link>
+          )}
+          <Link
+            href={`/${type}/eventos`}
+            className={pathname.includes("eventos") ? "text-sky-700" : ""}
+          >
+            Eventos
+          </Link>
+        </div>
+        <Button onClick={handleLogout}>Sair</Button>
       </div>
-      <Button onClick={handleLogout}>Sair</Button>
     </div>
   );
 }

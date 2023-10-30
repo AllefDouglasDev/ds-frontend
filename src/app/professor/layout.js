@@ -8,10 +8,8 @@ export const metadata = {
 export default function Layout({ children }) {
   return (
     <div>
-      <Navbar type='professor'/>
-      {children}
+      <Navbar type="professor" />
+      <div className="w-full h-full max-w-7xl mx-auto">{children}</div>
     </div>
   );
 }
-
-

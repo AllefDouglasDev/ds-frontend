@@ -14,9 +14,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <main className="w-screen h-screen overflow-x-hidden">
-          <Redux>
-            {children}
-          </Redux>
+          <Redux>{children}</Redux>
         </main>
       </body>
     </html>
