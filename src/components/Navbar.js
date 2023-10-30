@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import Link from "next/link";
 import { Button } from "./Button";
 import { useAppDispatch } from "../store";
@@ -56,6 +56,23 @@ export function Navbar({ type }) {
             >
               Eventos
             </Link>
+           {type === "professor" && (
+              <Fragment>
+                <Link
+                  href={`/${type}/alunos`}
+                  className={pathname.includes("alunos") ? "text-sky-700" : ""}
+                >
+                  Alunos
+                </Link>
+                <Link
+                  href={`/${type}/professores`}
+                  className={pathname.includes("professores") ? "text-sky-700" : ""}
+                >
+                  Professores
+                </Link>
+
+              </Fragment>
+            )}
             <Button onClick={handleLogout}>Sair</Button>
           </div>
         )}
@@ -88,6 +105,23 @@ export function Navbar({ type }) {
           >
             Eventos
           </Link>
+          {type === "professor" && (
+            <Fragment>
+              <Link
+                href={`/${type}/alunos`}
+                className={pathname.includes("alunos") ? "text-sky-700" : ""}
+              >
+                Alunos
+              </Link>
+              <Link
+                href={`/${type}/professores`}
+                className={pathname.includes("professores") ? "text-sky-700" : ""}
+              >
+                Professores
+              </Link>
+
+            </Fragment>
+          )}
         </div>
         <Button onClick={handleLogout}>Sair</Button>
       </div>

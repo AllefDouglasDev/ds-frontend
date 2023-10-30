@@ -11,7 +11,6 @@ export default function TaskDetailsPage() {
   const { data, isLoading } = useFetchTaskQuery(id);
 
   if (isLoading) return <Loading />;
-  console.log(data);
 
   return (
     <div className="w-full max-w-7xl mx-auto p-4">
