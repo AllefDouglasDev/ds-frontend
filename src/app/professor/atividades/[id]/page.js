@@ -1,24 +1,35 @@
-'use client'
+"use client";
 
 import { useFetchTaskQuery } from "@/api/tasks";
-import { useRouter, useParams } from "next/navigation";
-import { Loading } from '@/components/Loading';
+import { useParams } from "next/navigation";
+import { Loading } from "@/components/Loading";
+import { format } from "date-fns";
+import { TaskStudentCard } from "@/components/TaskStudentCard";
 
-export default function EditTaskPage() {
-  const { id } = useParams()
-  const route = '/professor/atividades'
-  const { replace } = useRouter();
+export default function TaskDetailsPage() {
+  const { id } = useParams();
+  const { data, isLoading } = useFetchTaskQuery(id);
 
-  const { data: theTask, isLoading: isLoadingTask } = useFetchTaskQuery(id)
-
-  if (isLoadingTask) return <Loading />
-  if (!theTask) return replace(route)
-
-  console.log(theTask)
+  if (isLoading) return <Loading />;
+  console.log(data);
 
   return (
-    <div>
-      <h1 className="text-3xl md:text-5xl font-bold">Atividade {id}</h1>
+    <div className="w-full max-w-7xl mx-auto p-4">
+      <header className="flex flex-col gap-2 p-4 bg-gray-100 rounded">
+        <h1 className="font-bold text-3xl md:text-5xl">{data.title}</h1>
+        <p className="font-semibold">
+          Prazo: {format(new Date(data.deadline), "dd/MM/yyyy 'às' HH:mm")}
+        </p>
+      </header>
+      <div className="p-4">
+        <p className="whitespace-pre-line">{data.description}</p>
+      </div>
+      <hr />
+      <div className="w-full my-4 flex flex-col gap-4">
+        {data?.students?.map((student) => (
+          <TaskStudentCard key={student.id} taskId={id} student={student} />
+        ))}
+      </div>
     </div>
-  )
+  );
 }

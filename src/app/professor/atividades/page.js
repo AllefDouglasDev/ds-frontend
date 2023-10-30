@@ -31,7 +31,7 @@ export default function TasksPage() {
               <span className="truncate font-semibold">{task.title}</span>
               <span className="truncate">{task.description}</span>
               <div className="truncate">
-                <span>Entrega:</span>{" "}
+                <span>Prazo:</span>{" "}
                 <span className="font-semibold">
                   {format(new Date(task.deadline), "dd/MM/yyyy 'às' HH:mm")}
                 </span>

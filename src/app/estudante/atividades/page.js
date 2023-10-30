@@ -22,15 +22,29 @@ export default function TasksPage() {
           {data.map((task) => (
             <div
               key={task.id}
-              className="w-full bg-gray-200 gap-3 rounded grid grid-cols-1 md:grid-cols-4 items-center p-4"
+              className={`w-full gap-3 rounded grid grid-cols-1 md:grid-cols-4 items-center p-4 ${!!task.deliveredAt ? "bg-green-100" : "bg-gray-200"
+                }`}
             >
               <span className="truncate font-semibold">{task.title}</span>
               <span className="truncate">{task.description}</span>
-              <div className="truncate">
-                <span>Entrega:</span>{" "}
-                <span className="font-semibold">
-                  {format(new Date(task.deadline), "dd/MM/yyyy 'às' HH:mm")}
-                </span>
+              <div className="flex flex-col gap-2">
+                <div className="truncate">
+                  <span>Prazo:</span>{" "}
+                  <span className="font-semibold">
+                    {format(new Date(task.deadline), "dd/MM/yyyy 'às' HH:mm")}
+                  </span>
+                </div>
+                {task.deliveredAt && (
+                  <div className="truncate">
+                    <span>Entregue:</span>{" "}
+                    <span className="font-semibold">
+                      {format(
+                        new Date(task.deliveredAt),
+                        "dd/MM/yyyy 'às' HH:mm"
+                      )}
+                    </span>
+                  </div>
+                )}
               </div>
               <div className="flex justify-end">
                 <Link href={`/estudante/atividades/${task.id}`}>

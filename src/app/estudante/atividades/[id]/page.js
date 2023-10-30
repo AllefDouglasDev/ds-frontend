@@ -6,7 +6,7 @@ import {
   useFetchTaskQuery,
 } from "@/api/tasks";
 import { Loading } from "@/components/Loading";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { format } from "date-fns";
 import { FormProvider, useForm } from "react-hook-form";
 import { Input } from "@/components/Input";
@@ -15,6 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { deliveryTaskSchema, doubtSchema } from "./validator";
 
 export default function TaskDetailsPage() {
+  const router = useRouter();
   const { id } = useParams();
   const taskFormMethods = useForm({
     resolver: zodResolver(deliveryTaskSchema),
@@ -25,14 +26,22 @@ export default function TaskDetailsPage() {
   const [deliveryTask, { isLoading: isDelivering }] = useDeliveryTaskMutation();
   const [createDoubt, { isLoading: isCreatingDoubt }] =
     useCreateDoubtMutation();
-  console.log(data);
 
   const onTaskSubmit = (data) => {
-    deliveryTask({ id, ...data });
+    deliveryTask({ id, ...data })
+      .unwrap()
+      .then(() => {
+        router.push(`/estudante/atividades`);
+      });
   };
 
   const onDoubtSubmit = (data) => {
-    createDoubt({ id, to: data.teacherId, ...data });
+    createDoubt({ id, to: data.teacherId, ...data })
+      .unwrap()
+      .then(() => {
+        doubtFormMethods.setValue("message", "");
+        doubtFormMethods.setFocus("message");
+      });
   };
 
   if (isLoading) return <Loading />;
@@ -48,23 +57,30 @@ export default function TaskDetailsPage() {
       <div className="p-4">
         <p className="whitespace-pre-line">{data.description}</p>
       </div>
-      <FormProvider {...taskFormMethods}>
-        <form
-          className="w-full p-4 flex flex-col gap-4"
-          onSubmit={taskFormMethods.handleSubmit(onTaskSubmit)}
-        >
-          <Input
-            name="content"
-            label="Resposta:"
-            placeholder="Responda ao exercício aqui"
-            asTextarea
-            rows={5}
-          />
-          <Button type="submit" disabled={isDelivering}>
-            Enviar
-          </Button>
-        </form>
-      </FormProvider>
+      {data.content ? (
+        <div className="p-4 bg-sky-50 rounded mb-4 flex flex-col gap-4">
+          <span className="text-lg font-semibold">Resposta:</span>
+          <p className="whitespace-pre-line">{data.content}</p>
+        </div>
+      ) : (
+        <FormProvider {...taskFormMethods}>
+          <form
+            className="w-full p-4 flex flex-col gap-4"
+            onSubmit={taskFormMethods.handleSubmit(onTaskSubmit)}
+          >
+            <Input
+              name="content"
+              label="Resposta:"
+              placeholder="Responda ao exercício aqui"
+              asTextarea
+              rows={5}
+            />
+            <Button type="submit" disabled={isDelivering}>
+              Enviar
+            </Button>
+          </form>
+        </FormProvider>
+      )}
 
       <hr />
 
@@ -77,7 +93,7 @@ export default function TaskDetailsPage() {
             {data.doubts.map((doubt) => (
               <div
                 key={doubt.id}
-                className={`rounded relative w-full p-4 pb-6 ${doubt.type === "student" ? "bg-green-100" : "bg-sky-100"
+                className={`rounded relative w-full p-4 pb-6 ${doubt.type === "student" ? "bg-green-50" : "bg-sky-50"
                   }`}
               >
                 <span>{doubt.message}</span>
