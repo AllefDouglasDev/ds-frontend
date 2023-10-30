@@ -3,13 +3,24 @@
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import { Select } from "@/components/Select";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
+import { schema } from "./validator";
+import { useCreateTaskMutation } from "@/api/tasks";
+import { useRouter } from "next/navigation";
 
 export default function CreateTaskPage() {
-  const formMethods = useForm();
+  const router = useRouter();
+  const formMethods = useForm({ resolver: zodResolver(schema) });
+  const [createTask, { isLoading }] = useCreateTaskMutation();
 
   const onSubmit = (data) => {
-    console.log(data);
+    const deadline = new Date(data.deadline).toISOString();
+    createTask({ ...data, deadline })
+      .unwrap()
+      .then((response) => {
+        router.push(`/professor/atividades/${response.id}`);
+      });
   };
 
   return (
@@ -31,7 +42,7 @@ export default function CreateTaskPage() {
             containerClassName="w-full"
             name="deadline"
             label="Prazo"
-            type="date"
+            type="datetime-local"
           />
         </div>
         <Input
@@ -40,7 +51,7 @@ export default function CreateTaskPage() {
           placeholder="Digite a descrição"
           asTextarea
         />
-        <Button className="mt-4" type="submit">
+        <Button className="mt-4" type="submit" disabled={isLoading}>
           Criar atividade
         </Button>
       </form>
