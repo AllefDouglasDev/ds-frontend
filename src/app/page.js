@@ -10,11 +10,12 @@ export default function Home() {
   const profile = useSelector(selectProfile);
 
   useEffect(() => {
+    console.log(profile)
     if (!profile) {
       router.replace('/login')
     } else if (profile.type === 'student') {
       router.replace('/estudante/atividades')
-    } else if (profile.type === 'student') {
+    } else if (profile.type === 'teacher') {
       router.replace('/professor/atividades')
     } 
   }, [profile, router])
