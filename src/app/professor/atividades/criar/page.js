@@ -15,8 +15,7 @@ export default function CreateTaskPage() {
   const [createTask, { isLoading }] = useCreateTaskMutation();
 
   const onSubmit = (data) => {
-    const deadline = new Date(data.deadline).toISOString();
-    createTask({ ...data, deadline })
+    createTask(data)
       .unwrap()
       .then((response) => {
         router.push(`/professor/atividades/${response.id}`);

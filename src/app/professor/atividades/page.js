@@ -9,6 +9,7 @@ import { Loading } from "../../../components/Loading";
 export default function TasksPage() {
   const { data, isLoading } = useListTasksQuery();
   if (isLoading) return <Loading />;
+
   return (
     <div className="w-full h-full overflow-y-auto">
       <div className="w-full p-4 flex justify-end">
@@ -33,7 +34,10 @@ export default function TasksPage() {
                   {format(new Date(task.deadline), "dd/MM/yyyy 'às' HH:mm")}
                 </span>
               </div>
-              <div className="flex justify-end">
+              <div className="flex gap-2 justify-end">
+                <Link href={`/professor/atividades/${task.id}/editar`}>
+                  <Button as="a">Editar</Button>
+                </Link>
                 <Link href={`/professor/atividades/${task.id}`}>
                   <Button as="a">Ver</Button>
                 </Link>

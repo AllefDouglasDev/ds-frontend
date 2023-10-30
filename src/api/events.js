@@ -3,13 +3,12 @@ import api from ".";
 const endpoints = {
   events: () => "events",
   event: (id) => `events/${id}`,
-  createEvent: () => `events`
 };
 
 const eventsApi = api.injectEndpoints({
   endpoints: (builder) => ({
     listEvents: builder.query({
-      query: endpoints.events, 
+      query: endpoints.events,
       providesTags: ['Events'],
     }),
     deleteEvent: builder.mutation({
@@ -21,16 +20,34 @@ const eventsApi = api.injectEndpoints({
     }),
     createEvent: builder.mutation({
       query: (body) => ({
-        url: endpoints.createEvent(),
+        url: endpoints.events(),
         method: 'POST',
         body
       }),
       invalidatesTags: ['Events']
+    }),
+    fetchEvent: builder.query({
+      query: (id) => endpoints.event(id),
+      providesTags: [{ type: 'Events', id: 'Id' }],
+    }),
+    editEvent: builder.mutation({
+      query: ({ id, ...body }) => ({
+        url: endpoints.event(id),
+        method: 'PUT',
+        body
+      }),
+      invalidatesTags: ['Events', {type: 'Events', id: 'Id'}]
     })
   }),
   overrideExisting: false,
 });
 
-export const { useListEventsQuery, useDeleteEventMutation, useCreateEventMutation } = eventsApi;
+export const {
+  useListEventsQuery,
+  useDeleteEventMutation,
+  useCreateEventMutation,
+  useFetchEventQuery,
+  useEditEventMutation
+} = eventsApi;
 
 export default eventsApi;
