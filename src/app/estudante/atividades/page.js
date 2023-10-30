@@ -9,12 +9,14 @@ import { Loading } from "../../../components/Loading";
 export default function TasksPage() {
   const { data, isLoading } = useListTasksQuery();
 
-  if (isLoading) return <Loading />
+  if (isLoading) return <Loading />;
 
   return (
     <div className="w-full h-full overflow-y-auto">
       {!data || data.length === 0 ? (
-        <div className="text-red-400">Nenhuma atividade.</div>
+        <div className="w-full text-center font-bold font-lg">
+          Nenhuma atividade.
+        </div>
       ) : (
         <div className="flex flex-col gap-4 p-4">
           {data.map((task) => (

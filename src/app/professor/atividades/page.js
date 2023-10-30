@@ -18,13 +18,15 @@ export default function TasksPage() {
         </Link>
       </div>
       {!data || data.length === 0 ? (
-        <div className="text-red-400">Nenhuma atividade.</div>
+        <div className="w-full text-center font-bold font-lg">
+          Nenhuma atividade.
+        </div>
       ) : (
         <div className="flex flex-col gap-4 p-4">
           {data.map((task) => (
             <div
               key={task.id}
-              className="w-full h-20 bg-gray-200 gap-3 rounded grid grid-cols-4 items-center p-4"
+              className="w-full bg-gray-200 gap-3 rounded grid grid-cols-1 md:grid-cols-4 items-center p-4"
             >
               <span className="truncate font-semibold">{task.title}</span>
               <span className="truncate">{task.description}</span>
