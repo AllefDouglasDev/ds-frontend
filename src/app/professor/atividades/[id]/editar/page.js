@@ -1,31 +1,43 @@
-'use client'
+"use client";
 
-import { useEffect } from 'react'
+import { useEffect, useMemo } from "react";
 import { useEditTaskMutation, useFetchTaskQuery } from "@/api/tasks";
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import { Select } from "@/components/Select";
 import { FormProvider, useForm } from "react-hook-form";
-import { schema } from './validator'
+import { schema } from "./validator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, useParams } from "next/navigation";
-import { Loading } from '@/components/Loading';
-import Link from 'next/link';
+import { Loading } from "@/components/Loading";
+import { useListClassesQuery } from "@/api/classes";
 
 export default function EditTaskPage() {
-  const { id } = useParams()
-  const route = '/professor/atividades'
+  const { id } = useParams();
+  const route = "/professor/atividades";
   const { push, replace } = useRouter();
 
   const formMethods = useForm({ resolver: zodResolver(schema) });
-  const { data: theTask, isLoading: isLoadingTask } = useFetchTaskQuery(id)
-  const [editTask, { isLoading: isLoadingEditTask }] = useEditTaskMutation()
+  const { data: theTask, isLoading: isLoadingTask } = useFetchTaskQuery(id);
+  const [editTask, { isLoading: isLoadingEditTask }] = useEditTaskMutation();
+  const { data } = useListClassesQuery();
+
+  const classes = useMemo(() => {
+    return (
+      data?.map((item) => ({
+        value: item.id,
+        label: item.name,
+      })) || []
+    );
+  }, [data]);
 
   const onSubmit = (data) => {
-    editTask({ id, ...data }).unwrap().then(() => {
-      push(route)
-    })
-  }
+    editTask({ id, ...data })
+      .unwrap()
+      .then(() => {
+        push(route);
+      });
+  };
 
   useEffect(() => {
     if (theTask) {
@@ -34,12 +46,12 @@ export default function EditTaskPage() {
         classId: theTask.classId,
         description: theTask.description,
         deadline: new Date(theTask.deadline).toISOString().slice(0, 16),
-      })
+      });
     }
-  }, [id, theTask])
+  }, [formMethods, id, theTask]);
 
-  if (isLoadingTask) return <Loading />
-  if (!theTask) return replace(route)
+  if (isLoadingTask) return <Loading />;
+  if (!theTask) return replace(route);
 
   return (
     <FormProvider {...formMethods}>
@@ -54,7 +66,7 @@ export default function EditTaskPage() {
             containerClassName="w-full"
             name="classId"
             label="Turma"
-            options={[{ value: 1, label: "1 ano" }]}
+            options={classes}
           />
           <Input
             containerClassName="w-full"
@@ -68,12 +80,12 @@ export default function EditTaskPage() {
           label="Descrição"
           placeholder="Digite a descrição"
           asTextarea
+          rows={5}
         />
         <Button className="mt-4" type="submit" disabled={isLoadingEditTask}>
           Editar atividade
         </Button>
       </form>
     </FormProvider>
-  )
+  );
 }
-

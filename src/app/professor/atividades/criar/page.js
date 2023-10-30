@@ -8,11 +8,23 @@ import { FormProvider, useForm } from "react-hook-form";
 import { schema } from "./validator";
 import { useCreateTaskMutation } from "@/api/tasks";
 import { useRouter } from "next/navigation";
+import { useListClassesQuery } from "@/api/classes";
+import { useMemo } from "react";
 
 export default function CreateTaskPage() {
   const router = useRouter();
   const formMethods = useForm({ resolver: zodResolver(schema) });
   const [createTask, { isLoading }] = useCreateTaskMutation();
+  const { data } = useListClassesQuery();
+
+  const classes = useMemo(() => {
+    return (
+      data?.map((item) => ({
+        value: item.id,
+        label: item.name,
+      })) || []
+    );
+  }, [data]);
 
   const onSubmit = (data) => {
     createTask(data)
@@ -35,7 +47,7 @@ export default function CreateTaskPage() {
             containerClassName="w-full"
             name="classId"
             label="Turma"
-            options={[{ value: 1, label: "1 ano" }]}
+            options={classes}
           />
           <Input
             containerClassName="w-full"
@@ -49,6 +61,7 @@ export default function CreateTaskPage() {
           label="Descrição"
           placeholder="Digite a descrição"
           asTextarea
+          rows={5}
         />
         <Button className="mt-4" type="submit" disabled={isLoading}>
           Criar atividade
