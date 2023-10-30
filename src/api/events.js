@@ -3,6 +3,7 @@ import api from ".";
 const endpoints = {
   events: () => "events",
   event: (id) => `events/${id}`,
+  createEvent: () => `events`
 };
 
 const eventsApi = api.injectEndpoints({
@@ -17,11 +18,19 @@ const eventsApi = api.injectEndpoints({
         method: 'DELETE',
       }),
       invalidatesTags: ['Events'],
+    }),
+    createEvent: builder.mutation({
+      query: (body) => ({
+        url: endpoints.createEvent(),
+        method: 'POST',
+        body
+      }),
+      invalidatesTags: ['Events']
     })
   }),
   overrideExisting: false,
 });
 
-export const { useListEventsQuery, useDeleteEventMutation } = eventsApi;
+export const { useListEventsQuery, useDeleteEventMutation, useCreateEventMutation } = eventsApi;
 
 export default eventsApi;

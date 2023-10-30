@@ -8,7 +8,7 @@ import { rootReducer } from './reducers'
 const store = configureStore({
   reducer: rootReducer,
   middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().concat(api.middleware),
+    getDefaultMiddleware({serializableCheck: false}).concat(api.middleware),
 })
 
 export const useAppDispatch = () => useDispatch()
