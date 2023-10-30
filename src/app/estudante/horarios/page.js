@@ -76,7 +76,7 @@ export default function SchedulesPage() {
           Nenhum horário..
         </div>
       ) : (
-        <div className="w-full overflow-x-auto">
+        <div className="w-full overflow-x-auto max-w-7xl mx-auto">
           <div className="w-full flex">
             {schedules.map((schedule) => (
               <div
@@ -89,9 +89,8 @@ export default function SchedulesPage() {
                 {schedule.times.map((item) => (
                   <span
                     key={item.time}
-                    className={`text-center border-b border-gray-200 px-4 py-2 ${
-                      schedule.day === "Intervalo" ? "text-red-400" : ""
-                    }`}
+                    className={`text-center border-b border-gray-200 px-4 py-2 ${schedule.day === "Intervalo" ? "text-red-400" : ""
+                      }`}
                   >
                     {item.subject}
                   </span>

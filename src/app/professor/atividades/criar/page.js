@@ -26,7 +26,7 @@ export default function CreateTaskPage() {
     <FormProvider {...formMethods}>
       <form
         onSubmit={formMethods.handleSubmit(onSubmit)}
-        className="flex flex-col gap-4 p-4"
+        className="flex flex-col gap-4 p-4 max-w-7xl mx-auto"
       >
         <h1 className="text-3xl md:text-5xl font-bold">Criar atividade</h1>
         <Input name="title" label="Título" placeholder="Digite o título" />
