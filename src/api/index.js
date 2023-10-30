@@ -5,7 +5,7 @@ const baseUrl = 'http://localhost:3001'
 export const TOKEN_KEY = '@digital-schedule/token'
 
 const api = createApi({
-  tagTypes: ['Tasks', 'Events'],
+  tagTypes: ['Tasks', 'Events', 'Users'],
   baseQuery: fetchBaseQuery({
     baseUrl,
     prepareHeaders: headers => {
