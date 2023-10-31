@@ -1,7 +1,10 @@
 "use client";
 
 import { useMemo } from "react";
-import { useListSchedulesQuery } from "../../../api/schedules";
+import {
+  useListLunchSchedulesQuery,
+  useListSchedulesQuery,
+} from "../../../api/schedules";
 import { Loading } from "../../../components/Loading";
 
 const defaultSchedule = {
@@ -60,20 +63,23 @@ const defaultSchedule = {
 };
 
 export default function SchedulesPage() {
-  const { data, isLoading } = useListSchedulesQuery();
+  const { data: classSchedules, isLoading: isClassSchedulesLoading } =
+    useListSchedulesQuery();
+  const { data: lunchSchedules, isLoading: isLunchSchedulesLoading } =
+    useListLunchSchedulesQuery();
 
   const schedules = useMemo(() => {
-    if (!data) return [];
-    return [defaultSchedule, ...data];
-  }, [data]);
+    if (!classSchedules) return [];
+    return [defaultSchedule, ...classSchedules];
+  }, [classSchedules]);
 
-  if (isLoading) return <Loading />;
+  if (isClassSchedulesLoading || isLunchSchedulesLoading) return <Loading />;
 
   return (
     <div className="w-full h-full overflow-y-auto p-4">
-      {!schedules.length === 0 ? (
+      {schedules.length === 0 ? (
         <div className="w-full text-center font-bold font-lg">
-          Nenhum horário..
+          Nenhum horário.
         </div>
       ) : (
         <div className="w-full overflow-x-auto max-w-7xl mx-auto">
@@ -90,6 +96,36 @@ export default function SchedulesPage() {
                   <span
                     key={item.time}
                     className={`text-center border-b border-gray-200 px-4 py-2 ${schedule.day === "Intervalo" ? "text-red-400" : ""
+                      }`}
+                  >
+                    {item.subject}
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {!lunchSchedules || lunchSchedules.length === 0 ? (
+        <div className="w-full text-center font-bold font-lg">
+          Nenhum horário.
+        </div>
+      ) : (
+        <div className="w-full overflow-x-auto max-w-7xl mx-auto my-8">
+          <div className="w-full flex">
+            {lunchSchedules.map((schedule) => (
+              <div
+                key={schedule.id}
+                className="flex flex-col flex-1 border border-gray-200"
+              >
+                <span className="text-center p-4 bg-gray-200">
+                  {schedule.day}
+                </span>
+                {schedule.times.map((item) => (
+                  <span
+                    key={item.time}
+                    className={`text-center border-b whitespace-nowrap border-gray-200 px-4 py-2 ${schedule.day === "Intervalo" ? "text-red-400" : ""
                       }`}
                   >
                     {item.subject}

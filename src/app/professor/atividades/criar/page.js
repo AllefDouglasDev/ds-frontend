@@ -13,7 +13,10 @@ import { useMemo } from "react";
 
 export default function CreateTaskPage() {
   const router = useRouter();
-  const formMethods = useForm({ resolver: zodResolver(schema) });
+  const formMethods = useForm({
+    resolver: zodResolver(schema),
+    defaultValues: { classId: 1 },
+  });
   const [createTask, { isLoading }] = useCreateTaskMutation();
   const { data } = useListClassesQuery();
 
