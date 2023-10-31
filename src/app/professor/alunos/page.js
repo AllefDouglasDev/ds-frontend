@@ -7,12 +7,12 @@ import { useDeleteUserMutation, useListUsersQuery } from "@/api/users";
 import { MdDelete } from "react-icons/md";
 
 export default function StudentsPage() {
-  const { data, isLoading: isLoadingClasses } = useListUsersQuery({ type: 'student' });
+  const { data, isLoading } = useListUsersQuery({ type: 'student' });
 
   const [deleteUser] = useDeleteUserMutation()
   const handleDeleteUser = (id) => deleteUser(id)
 
-  if (isLoadingClasses) return <Loading />;
+  if (isLoading) return <Loading />;
 
   return (
     <div className="w-full h-full overflow-y-auto">
