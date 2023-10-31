@@ -96,7 +96,7 @@ export default function TaskDetailsPage() {
                 className={`rounded relative w-full p-4 pb-6 ${doubt.type === "student" ? "bg-green-50" : "bg-sky-50"
                   }`}
               >
-                <span>{doubt.message}</span>
+                <span className="whitespace-pre-line">{doubt.message}</span>
                 <span className="absolute bottom-2 right-2 text-xs">
                   {format(new Date(doubt.createdAt), "dd/MM/yyyy 'às' HH:mm")}
                 </span>

@@ -8,6 +8,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { logout } from "../store/auth/slice";
 import { useDevice } from "@/hooks/useDevice";
 import { MdClose, MdMenu } from "react-icons/md";
+import { useSelector } from "react-redux";
+import { selectProfile } from "@/store/auth/selectors";
 
 export function Navbar({ type }) {
   const { isMobile } = useDevice();
@@ -15,6 +17,7 @@ export function Navbar({ type }) {
   const { replace } = useRouter();
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
+  const profile = useSelector(selectProfile);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -30,9 +33,12 @@ export function Navbar({ type }) {
       <div className="w-full flex flex-col">
         <div className="w-full h-16 flex items-center justify-between p-4 border-b border-gray-400">
           <h1 className="font-bold">Digital Schedule</h1>
-          <button onClick={handleToggleMenu}>
-            {isOpen ? <MdClose size={24} /> : <MdMenu size={24} />}
-          </button>
+          <div className="flex items-center gap-4">
+            <span className="text-sm font-semibold">{profile?.name}</span>
+            <button onClick={handleToggleMenu}>
+              {isOpen ? <MdClose size={24} /> : <MdMenu size={24} />}
+            </button>
+          </div>
         </div>
         {isOpen && (
           <div className="flex flex-col gap-4 p-4 border-b border-gray-400">
@@ -56,7 +62,7 @@ export function Navbar({ type }) {
             >
               Eventos
             </Link>
-           {type === "professor" && (
+            {type === "professor" && (
               <Fragment>
                 <Link
                   href={`/${type}/alunos`}
@@ -66,11 +72,12 @@ export function Navbar({ type }) {
                 </Link>
                 <Link
                   href={`/${type}/professores`}
-                  className={pathname.includes("professores") ? "text-sky-700" : ""}
+                  className={
+                    pathname.includes("professores") ? "text-sky-700" : ""
+                  }
                 >
                   Professores
                 </Link>
-
               </Fragment>
             )}
             <Button onClick={handleLogout}>Sair</Button>
@@ -115,15 +122,19 @@ export function Navbar({ type }) {
               </Link>
               <Link
                 href={`/${type}/professores`}
-                className={pathname.includes("professores") ? "text-sky-700" : ""}
+                className={
+                  pathname.includes("professores") ? "text-sky-700" : ""
+                }
               >
                 Professores
               </Link>
-
             </Fragment>
           )}
         </div>
-        <Button onClick={handleLogout}>Sair</Button>
+        <div className="flex items-center gap-4">
+          <span className="text-sm font-semibold">{profile?.name}</span>
+          <Button onClick={handleLogout}>Sair</Button>
+        </div>
       </div>
     </div>
   );
