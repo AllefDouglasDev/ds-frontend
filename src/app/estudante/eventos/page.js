@@ -10,7 +10,7 @@ export default function EventsPage() {
   return (
     <div>
       {!data || data.length === 0 ? (
-        <div className="w-full text-center font-bold font-lg">
+        <div className="w-full text-center font-bold font-lg mt-12">
           Nenhum evento.
         </div>
       ) : (

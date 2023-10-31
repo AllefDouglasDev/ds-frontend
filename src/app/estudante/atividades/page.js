@@ -14,7 +14,7 @@ export default function TasksPage() {
   return (
     <div className="w-full h-full overflow-y-auto">
       {!data || data.length === 0 ? (
-        <div className="w-full text-center font-bold font-lg">
+        <div className="w-full text-center font-bold font-lg mt-12">
           Nenhuma atividade.
         </div>
       ) : (
