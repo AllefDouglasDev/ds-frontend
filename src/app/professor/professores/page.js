@@ -16,8 +16,8 @@ export default function TeachersPage() {
   const { data, isLoading } = useListUsersQuery({ type: "teacher" });
 
   const teachers = useMemo(() => {
-    return data?.filter((teacher) => teacher.id !== profile.id) || [];
-  }, [data, profile.id]);
+    return data?.filter((teacher) => teacher.id !== profile?.id) || [];
+  }, [data, profile?.id]);
 
   const handleDeleteUser = (id) => deleteUser(id);
 
@@ -38,7 +38,7 @@ export default function TeachersPage() {
         <div className="flex flex-col gap-4 p-4">
           {teachers.map((teacher) => (
             <div
-              key={teacher.id}
+              key={teacher?.id}
               className="w-full bg-gray-200 gap-3 rounded grid grid-cols-1 md:grid-cols-3 items-center p-4"
             >
               <span className="truncate font-semibold">{teacher.name}</span>
