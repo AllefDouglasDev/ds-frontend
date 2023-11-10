@@ -12,7 +12,7 @@ import { Loading } from '@/components/Loading';
 
 export default function EditEventPage() {
   const { id } = useParams()
-  const route = '/professor/eventos'
+  const route = '/diretor/eventos'
   const { push, replace } = useRouter();
 
   const formMethods = useForm({ resolver: zodResolver(schema) });
@@ -33,7 +33,7 @@ export default function EditEventPage() {
         end: new Date(theEvent.end).toISOString().slice(0, 16),
       })
     }
-  }, [id, theEvent])
+  }, [formMethods, id, theEvent])
 
   if (isLoadingEvent) return <Loading />
   if (!theEvent) return replace(route)

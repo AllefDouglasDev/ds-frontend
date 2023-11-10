@@ -22,8 +22,10 @@ export default function Login() {
       .then((response) => {
         if (response.user.type === "student") {
           replace("/estudante/atividades");
-        } else {
+        } else if (response.user.type === 'teacher') {
           replace("/professor/atividades");
+        } else {
+          replace("/diretor/eventos");
         }
       })
       .catch((error) => {

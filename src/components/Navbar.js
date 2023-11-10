@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Fragment } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { Button } from "./Button";
 import { useAppDispatch } from "../store";
@@ -42,12 +42,16 @@ export function Navbar({ type }) {
         </div>
         {isOpen && (
           <div className="flex flex-col gap-4 p-4 border-b border-gray-400">
-            <Link
-              href={`/${type}/atividades`}
-              className={pathname.includes("atividades") ? "text-sky-700" : ""}
-            >
-              Atividades
-            </Link>
+            {(type === "estudante" || type === "professor") && (
+              <Link
+                href={`/${type}/atividades`}
+                className={
+                  pathname.includes("atividades") ? "text-sky-700" : ""
+                }
+              >
+                Atividades
+              </Link>
+            )}
             {type === "estudante" && (
               <Link
                 href={`/${type}/horarios`}
@@ -56,14 +60,16 @@ export function Navbar({ type }) {
                 Horários
               </Link>
             )}
-            <Link
-              href={`/${type}/eventos`}
-              className={pathname.includes("eventos") ? "text-sky-700" : ""}
-            >
-              Eventos
-            </Link>
-            {type === "professor" && (
-              <Fragment>
+            {(type === "estudante" || type === "diretor") && (
+              <Link
+                href={`/${type}/eventos`}
+                className={pathname.includes("eventos") ? "text-sky-700" : ""}
+              >
+                Eventos
+              </Link>
+            )}
+            {type === "diretor" && (
+              <>
                 <Link
                   href={`/${type}/alunos`}
                   className={pathname.includes("alunos") ? "text-sky-700" : ""}
@@ -78,7 +84,7 @@ export function Navbar({ type }) {
                 >
                   Professores
                 </Link>
-              </Fragment>
+              </>
             )}
             <Button onClick={handleLogout}>Sair</Button>
           </div>
@@ -92,12 +98,14 @@ export function Navbar({ type }) {
       <div className="w-full max-w-7xl mx-auto h-16 flex items-center justify-between p-4">
         <h1 className="font-bold">Digital Schedule</h1>
         <div className="flex gap-6">
-          <Link
-            href={`/${type}/atividades`}
-            className={pathname.includes("atividades") ? "text-sky-700" : ""}
-          >
-            Atividades
-          </Link>
+          {(type === "estudante" || type === "professor") && (
+            <Link
+              href={`/${type}/atividades`}
+              className={pathname.includes("atividades") ? "text-sky-700" : ""}
+            >
+              Atividades
+            </Link>
+          )}
           {type === "estudante" && (
             <Link
               href={`/${type}/horarios`}
@@ -106,14 +114,16 @@ export function Navbar({ type }) {
               Horários
             </Link>
           )}
-          <Link
-            href={`/${type}/eventos`}
-            className={pathname.includes("eventos") ? "text-sky-700" : ""}
-          >
-            Eventos
-          </Link>
-          {type === "professor" && (
-            <Fragment>
+          {(type === "estudante" || type === "diretor") && (
+            <Link
+              href={`/${type}/eventos`}
+              className={pathname.includes("eventos") ? "text-sky-700" : ""}
+            >
+              Eventos
+            </Link>
+          )}
+          {type === "diretor" && (
+            <>
               <Link
                 href={`/${type}/alunos`}
                 className={pathname.includes("alunos") ? "text-sky-700" : ""}
@@ -128,7 +138,7 @@ export function Navbar({ type }) {
               >
                 Professores
               </Link>
-            </Fragment>
+            </>
           )}
         </div>
         <div className="flex items-center gap-4">

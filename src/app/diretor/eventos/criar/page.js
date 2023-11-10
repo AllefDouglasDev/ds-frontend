@@ -16,7 +16,7 @@ export default function CreateEventPage() {
 
   const onSubmit = (data) => {
     createEvent(data).unwrap().then(() => {
-      push('/professor/eventos')
+      push('/diretor/eventos')
     })
   }
 

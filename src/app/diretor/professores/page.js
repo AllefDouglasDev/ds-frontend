@@ -26,7 +26,7 @@ export default function TeachersPage() {
   return (
     <div className="w-full h-full overflow-y-auto">
       <div className="w-full p-4 flex justify-end">
-        <Link href="/professor/professores/criar">
+        <Link href="/diretor/professores/criar">
           <Button as="a">Criar professor</Button>
         </Link>
       </div>

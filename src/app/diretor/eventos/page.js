@@ -23,7 +23,7 @@ export default function EventsPage() {
   return (
     <div className="w-full h-full overflow-y-auto">
       <div className="w-full p-4 flex justify-end">
-        <Link href="/professor/eventos/criar">
+        <Link href="/diretor/eventos/criar">
           <Button as="a">Criar evento</Button>
         </Link>
       </div>
@@ -64,7 +64,7 @@ export default function EventsPage() {
                   </span>
                 </div>
                 <div className="flex-1 mt-6">
-                  <Link href={`/professor/eventos/${theEvent.id}`}>
+                  <Link href={`/diretor/eventos/${theEvent.id}`}>
                     <Button as="a">Ver</Button>
                   </Link>
                 </div>

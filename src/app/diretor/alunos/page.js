@@ -17,7 +17,7 @@ export default function StudentsPage() {
   return (
     <div className="w-full h-full overflow-y-auto">
       <div className="w-full p-4 flex justify-end">
-        <Link href="/professor/alunos/criar">
+        <Link href="/diretor/alunos/criar">
           <Button as="a">Criar aluno</Button>
         </Link>
       </div>
